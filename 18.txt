@@ -1,0 +1,35 @@
+% Define the database of individuals with their names and dates of birth.
+% The format is person(Name, dob(Day, Month, Year)).
+
+% Sample data
+person('Alice', dob(15, june, 1990)).
+person('Bob', dob(23, july, 1985)).
+person('Charlie', dob(1, january, 2000)).
+person('Diana', dob(30, september, 1995)).
+person('Eve', dob(10, october, 1992)).
+
+% Query for finding a person's DOB by their name.
+find_dob(Name, dob(Day, Month, Year)) :-
+    person(Name, dob(Day, Month, Year)).
+
+% Query for finding a person by their month of birth.
+find_by_month(Month, Name) :-
+    person(Name, dob(_, Month, _)).
+
+% Query for finding a person born in a specific year.
+find_by_year(Year, Name) :-
+    person(Name, dob(_, _, Year)).
+
+% Query for checking if someone is born before a given year.
+born_before(Year, Name) :-
+    person(Name, dob(_, _, Y)),
+    Y < Year.
+
+% Query for checking if someone is born after a given year.
+born_after(Year, Name) :-
+    person(Name, dob(_, _, Y)),
+    Y > Year.
+
+% Query for listing all individuals born in a specific year.
+list_births_in_year(Year, List) :-
+    findall(Name, person(Name, dob(_, _, Year)), List).

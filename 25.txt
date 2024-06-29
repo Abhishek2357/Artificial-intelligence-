@@ -1,0 +1,55 @@
+
+% Define the initial state
+% state(MonkeyPos, BoxPos, MonkeyOnBox, HasBanana).
+initial_state(state(at_door, at_window, false, false)).
+
+% Define the goal state
+goal_state(state(_, _, _, true)).
+
+% Action: The monkey walks to a new position
+move(state(MonkeyPos, BoxPos, MonkeyOnBox, HasBanana),
+     walk(MonkeyPos, NewPos),
+     state(NewPos, BoxPos, MonkeyOnBox, HasBanana)) :-
+    dif(MonkeyPos, NewPos).
+
+% Action: The monkey pushes the box to a new position
+move(state(MonkeyPos, MonkeyPos, false, HasBanana),
+     push(MonkeyPos, NewPos),
+     state(NewPos, NewPos, false, HasBanana)) :-
+    dif(MonkeyPos, NewPos).
+
+% Action: The monkey climbs onto the box
+move(state(Pos, Pos, false, HasBanana),
+     climb(Pos),
+     state(Pos, Pos, true, HasBanana)).
+
+% Action: The monkey grabs the bananas
+move(state(at_middle, at_middle, true, false),
+     grab,
+     state(at_middle, at_middle, true, true)).
+
+% Solve the problem by finding a sequence of moves from the initial state to the goal state
+solve(State, _, Moves) :-
+    goal_state(State),
+    Moves = [].
+
+solve(State, Visited, [Move|Moves]) :-
+    move(State, Move, NextState),
+    \+ member(NextState, Visited),  % Ensure the state hasn't been visited to avoid loops
+    solve(NextState, [NextState|Visited], Moves).
+
+% Main entry point to solve the problem
+solve_monkey_banana :-
+    initial_state(State),
+    solve(State, [State], Moves),  % Start with the initial state as visited
+    write('Sequence of moves: '), nl,
+    write_moves(Moves).
+
+% Helper to print moves
+write_moves([]).
+write_moves([Move|Moves]) :-
+    write(Move), nl,
+    write_moves(Moves).
+
+% Start the solution
+:- solve_monkey_banana.

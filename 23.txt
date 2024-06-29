@@ -1,0 +1,55 @@
+% Facts: Define parents
+parent(john, mary).    % John is a parent of Mary
+parent(john, mike).    % John is a parent of Mike
+parent(susan, mary).   % Susan is a parent of Mary
+parent(susan, mike).   % Susan is a parent of Mike
+
+parent(mary, alice).   % Mary is a parent of Alice
+parent(mary, bob).     % Mary is a parent of Bob
+parent(jim, alice).    % Jim is a parent of Alice
+parent(jim, bob).      % Jim is a parent of Bob
+
+parent(mike, tom).     % Mike is a parent of Tom
+parent(lisa, tom).     % Lisa is a parent of Tom
+
+parent(bob, sam).      % Bob is a parent of Sam
+parent(bob, emily).    % Bob is a parent of Emily
+parent(sara, sam).     % Sara is a parent of Sam
+parent(sara, emily).   % Sara is a parent of Emily
+
+% Rule: Define child relationship
+child(X, Y) :-
+    parent(Y, X).
+
+% Rule: Define sibling relationship
+sibling(X, Y) :-
+    parent(Z, X),
+    parent(Z, Y),
+    X \= Y.
+
+% Rule: Define grandparent relationship
+grandparent(X, Y) :-
+    parent(X, Z),
+    parent(Z, Y).
+
+% Rule: Define grandchild relationship
+grandchild(X, Y) :-
+    grandparent(Y, X).
+
+% Rule: Define uncle/aunt relationship
+uncle_or_aunt(X, Y) :-
+    sibling(X, Z),
+    parent(Z, Y).
+
+% Rule: Define cousin relationship
+cousin(X, Y) :-
+    parent(A, X),
+    parent(B, Y),
+    sibling(A, B).
+
+% Rule: Define ancestor relationship
+ancestor(X, Y) :-
+    parent(X, Y).
+ancestor(X, Y) :-
+    parent(X, Z),
+    ancestor(Z, Y).

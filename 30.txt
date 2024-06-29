@@ -1,0 +1,52 @@
+% Facts (Initial Knowledge Base)
+fact(sun_is_shining).
+fact(sky_is_clear).
+fact(grass_is_wet).
+
+% Rules
+rule(sprinklers_on, [grass_is_wet, sun_is_shining]).
+rule(rain, [grass_is_wet, sky_is_clear]).
+
+% Forward Chaining Algorithm
+forward_chaining(NewFacts) :-
+    findall(Rule, (
+        rule(Conclusion, Conditions),
+        all_conditions_true(Conditions),
+        \+ fact(Conclusion)  % Only infer new facts
+    ), RulesToApply),
+    apply_rules(RulesToApply, NewFacts).
+
+% Check if all conditions of a rule are true
+all_conditions_true([]).
+all_conditions_true([Condition|Rest]) :-
+    fact(Condition),
+    all_conditions_true(Rest).
+
+% Apply rules and infer new facts
+apply_rules([], []).
+apply_rules([rule(Conclusion, _)|RestRules], [Conclusion|RestNewFacts]) :-
+    assert(fact(Conclusion)),
+    apply_rules(RestRules, RestNewFacts).
+
+% Query to infer all possible new facts
+infer_all_facts(NewFacts) :-
+    forward_chaining(NewFacts),
+    NewFacts \= [].
+
+% Start forward chaining until no new facts can be derived
+run_forward_chaining :-
+    infer_all_facts(NewFacts),
+    write('New Facts: '), writeln(NewFacts),
+    run_forward_chaining.
+run_forward_chaining :-
+    writeln('No more facts to infer.').
+
+% Query to check if a specific fact can be inferred
+can_infer(Fact) :-
+    forward_chaining(NewFacts),
+    (member(Fact, NewFacts) -> true ; can_infer(Fact)).
+
+% Utility to list all known facts
+list_facts :-
+    findall(F, fact(F), Facts),
+    write('Known Facts: '), writeln(Facts).

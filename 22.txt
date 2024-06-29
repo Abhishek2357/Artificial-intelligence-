@@ -1,0 +1,80 @@
+% Facts: Define birds and their species
+bird(polly, parrot).
+bird(tweety, canary).
+bird(woody, woodpecker).
+bird(opus, penguin).
+bird(donald, duck).
+bird(sam, ostrich).
+
+% Facts: Define which species can fly and which cannot
+can_fly(parrot).
+can_fly(canary).
+can_fly(woodpecker).
+can_fly(duck).
+
+cannot_fly(penguin).
+cannot_fly(ostrich).
+
+% Rule: A bird can fly if it belongs to a species that can fly
+can_fly_bird(Bird) :-
+    bird(Bird, Species),
+    can_fly(Species).
+
+% Rule: A bird cannot fly if it belongs to a species that cannot fly
+cannot_fly_bird(Bird) :-
+    bird(Bird, Species),
+    cannot_fly(Species).
+
+% Rule: If we know the species can fly or not, we can generalize to the bird
+can_fly_or_not(Bird, 'can fly') :-
+    can_fly_bird(Bird).
+
+can_fly_or_not(Bird, 'cannot fly') :-
+    cannot_fly_bird(Bird).
+
+can_fly_or_not(Bird, 'unknown') :-
+    bird(Bird, Species),
+    \+ can_fly(Species),
+    \+ cannot_fly(Species).
+% Facts: Define dietary recommendations for various diseases
+diet(diabetes, 'Low sugar, high fiber, and low-carb diet. Focus on vegetables, lean protein, and whole grains.').
+diet(hypertension, 'Low sodium diet. Include fruits, vegetables, whole grains, and avoid processed foods.').
+diet(obesity, 'Calorie-restricted diet. Emphasize vegetables, fruits, lean proteins, and whole grains. Avoid high-calorie, low-nutrient foods.').
+diet(anemia, 'Iron-rich diet. Include lean meats, dark leafy green% Facts: Define birds and their species
+bird(polly, parrot).
+bird(tweety, canary).
+bird(woody, woodpecker).
+bird(opus, penguin).
+bird(donald, duck).
+bird(sam, ostrich).
+
+% Facts: Define which species can fly and which cannot
+can_fly(parrot).
+can_fly(canary).
+can_fly(woodpecker).
+can_fly(duck).
+
+cannot_fly(penguin).
+cannot_fly(ostrich).
+
+% Rule: A bird can fly if it belongs to a species that can fly
+can_fly_bird(Bird) :-
+    bird(Bird, Species),
+    can_fly(Species).
+
+% Rule: A bird cannot fly if it belongs to a species that cannot fly
+cannot_fly_bird(Bird) :-
+    bird(Bird, Species),
+    cannot_fly(Species).
+
+% Rule: If we know the species can fly or not, we can generalize to the bird
+can_fly_or_not(Bird, 'can fly') :-
+    can_fly_bird(Bird).
+
+can_fly_or_not(Bird, 'cannot fly') :-
+    cannot_fly_bird(Bird).
+
+can_fly_or_not(Bird, 'unknown') :-
+    bird(Bird, Species),
+    \+ can_fly(Species),
+    \+ cannot_fly(Species).

@@ -1,0 +1,32 @@
+
+% teacher(TeacherID, TeacherName).
+teacher(101, 'Mr. Smith').
+teacher(102, 'Ms. Johnson').
+teacher(103, 'Dr. Brown').
+
+% subject(SubjectCode, SubjectName, TeacherID).
+subject(csci101, 'Introduction to Computer Science', 101).
+subject(math201, 'Advanced Mathematics', 102).
+subject(eng101, 'English Literature', 103).
+subject(chem101, 'Chemistry Basics', 102).
+subject(hist201, 'World History', 101).
+
+% Define predicates to query relationships.
+
+% Predicate to find all subjects taught by a teacher.
+subjects_taught_by_teacher(TeacherID, SubjectList) :-
+    findall(SubjectName, subject(_, SubjectName, TeacherID), SubjectList).
+
+% Predicate to find all students enrolled in a subject.
+students_enrolled_in_subject(SubjectCode, StudentList) :-
+    findall(StudentName, enrolled(StudentName, SubjectCode), StudentList).
+
+% Define sample enrollment data (student - subject relationship).
+% enrolled(StudentName, SubjectCode).
+
+enrolled('Alice', csci101).
+enrolled('Alice', math201).
+enrolled('Bob', csci101).
+enrolled('Charlie', eng101).
+enrolled('Diana', chem101).
+enrolled('Diana', hist201).

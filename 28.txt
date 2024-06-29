@@ -1,0 +1,56 @@
+% Knowledge base defining diseases and their associated symptoms
+
+% Diseases
+disease(cold).
+disease(flu).
+disease(allergy).
+disease(covid19).
+
+% Symptoms
+symptom(fever).
+symptom(cough).
+symptom(sore_throat).
+symptom(runny_nose).
+symptom(headache).
+symptom(body_aches).
+symptom(sneezing).
+symptom(loss_of_taste).
+symptom(difficulty_breathing).
+
+% Disease-Symptom Relationships
+has_symptom(cold, cough).
+has_symptom(cold, runny_nose).
+has_symptom(cold, sneezing).
+has_symptom(cold, sore_throat).
+
+has_symptom(flu, fever).
+has_symptom(flu, cough).
+has_symptom(flu, headache).
+has_symptom(flu, body_aches).
+has_symptom(flu, sore_throat).
+
+has_symptom(allergy, sneezing).
+has_symptom(allergy, runny_nose).
+has_symptom(allergy, itchy_eyes).
+has_symptom(allergy, headache).
+
+has_symptom(covid19, fever).
+has_symptom(covid19, cough).
+has_symptom(covid19, loss_of_taste).
+has_symptom(covid19, difficulty_breathing).
+
+% Diagnosis Rules
+diagnose(Disease, Symptoms) :-
+    disease(Disease),
+    findall(Symptom, has_symptom(Disease, Symptom), DiseaseSymptoms),
+    subset(Symptoms, DiseaseSymptoms).
+
+% Utility to check if a list is a subset of another list
+subset([], _).
+subset([H|T], List) :-
+    member(H, List),
+    subset(T, List).
+
+% Query function to provide diagnosis based on a list of symptoms
+query_diagnosis(Symptoms, Diagnosis) :-
+    findall(Disease, diagnose(Disease, Symptoms), Diagnosis).

@@ -1,0 +1,18 @@
+ % Facts: Define dietary recommendations for various diseases
+diet(diabetes, 'Low sugar, high fiber, and low-carb diet. Focus on vegetables, lean protein, and whole grains.').
+diet(hypertension, 'Low sodium diet. Include fruits, vegetables, whole grains, and avoid processed foods.').
+diet(obesity, 'Calorie-restricted diet. Emphasize vegetables, fruits, lean proteins, and whole grains. Avoid high-calorie, low-nutrient foods.').
+diet(anemia, 'Iron-rich diet. Include lean meats, dark leafy greens, beans, and fortified cereals.').
+diet(celiac_disease, 'Gluten-free diet. Avoid wheat, barley, rye, and foods containing gluten.').
+diet(heart_disease, 'Low-fat, low-cholesterol diet. Focus on fruits, vegetables, whole grains, and lean protein. Avoid trans fats and saturated fats.').
+diet(gout, 'Low purine diet. Avoid red meat, seafood, and alcohol. Focus on low-fat dairy, vegetables, and whole grains.').
+diet(kidney_stones, 'Increase fluid intake and follow a diet low in oxalates. Avoid high-oxalate foods like spinach, nuts, and chocolate.').
+
+% Rule: Suggest diet based on the disease
+suggest_diet(Disease, Recommendation) :-
+    diet(Disease, Recommendation).
+
+% Example of handling multiple diets for the same disease (e.g., special conditions or more detailed recommendations)
+% You can expand this to add more specificity if needed.
+suggest_diet(Disease, 'Consult a healthcare professional for personalized dietary advice.') :-
+    \+ diet(Disease, _).

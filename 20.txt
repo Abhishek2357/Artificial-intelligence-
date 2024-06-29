@@ -1,0 +1,29 @@
+% Define the database for planets in our solar system.
+
+% planet(Name, PositionFromSun, DiameterInKm, NumberOfMoons).
+planet(mercury, 1, 4879, 0).
+planet(venus, 2, 12104, 0).
+planet(earth, 3, 12756, 1).
+planet(mars, 4, 6792, 2).
+planet(jupiter, 5, 142984, 79).
+planet(saturn, 6, 120536, 82).
+planet(uranus, 7, 51118, 27).
+planet(neptune, 8, 49528, 14).
+
+% Query predicates to retrieve information about planets.
+
+% Query for finding the diameter of a planet.
+planet_diameter(Planet, Diameter) :-
+    planet(Planet, _, Diameter, _).
+
+% Query for finding the number of moons of a planet.
+planet_moons(Planet, Moons) :-
+    planet(Planet, _, _, Moons).
+
+% Query for finding planets beyond a certain position from the Sun.
+planets_beyond(Position, Planets) :-
+    findall(Planet, (planet(Planet, Pos, _, _), Pos > Position), Planets).
+
+% Query for listing all planets.
+list_planets(Planets) :-
+    findall(Planet, planet(Planet, _, _, _), Planets).

@@ -1,0 +1,44 @@
+% Define the graph with edges and their respective costs
+edge(a, b, 2).
+edge(a, c, 1).
+edge(b, d, 5).
+edge(b, e, 4).
+edge(c, f, 6).
+edge(c, g, 3).
+edge(e, h, 2).
+edge(g, h, 4).
+
+% Define heuristic values for each node (e.g., distance to goal)
+heuristic(a, 7).
+heuristic(b, 6).
+heuristic(c, 2).
+heuristic(d, 4).
+heuristic(e, 1).
+heuristic(f, 9).
+heuristic(g, 3).
+heuristic(h, 0). % Goal node
+
+% Best First Search algorithm
+best_first_search(Start, Goal, Path, Cost) :-
+    bfs([[Start, 0]], Goal, [], Path, Cost).
+
+% BFS helper function
+bfs([[Goal, Cost]|_], Goal, Visited, Path, Cost) :-
+    reverse([Goal|Visited], Path).
+
+bfs([[Current, CurrentCost]|RestQueue], Goal, Visited, Path, Cost) :-
+    findall([Next, NewCost],
+            (edge(Current, Next, StepCost),
+             \+ member(Next, Visited),
+             heuristic(Next, H),
+             NewCost is CurrentCost + StepCost + H),
+            Neighbors),
+    append(RestQueue, Neighbors, NewQueue),
+    sort(2, @=<, NewQueue, SortedQueue),
+    bfs(SortedQueue, Goal, [Current|Visited], Path, Cost).
+
+% Utility to reverse a list
+reverse(List, Reversed) :- reverse(List, [], Reversed).
+reverse([], Reversed, Reversed).
+reverse([H|T], SoFar, Reversed) :-
+ reverse(T, [H|SoFar], Reversed).
